@@ -30,6 +30,11 @@ A collection of 900 artist images was gathered to calculate similarity scores. T
 
 This step is optional.
 
+### Database
+Scripts for creating the PostgreSQL tables are located in the db folder. The scripts also contain data for the object and color detection scoring based on the images described in the last section.
+
+This step is optional.
+
 ## Usage
 ### Image Scoring
 The image scoring functionality is used to establish a base of object and color metrics for searching. The script score_image.py takes in a set of jpg image files, runs both object detection and 'colorfulness' analysis on each image, and then constructs SQL statements to either directly insert into a specified DB, or print out to the terminal.
@@ -52,7 +57,10 @@ optional arguments:
 ### Artist Matching
 The search_artist.py script takes in one artist name, matches them all other loaded artists based on common objects and 'colorfulness', and returns the top five ranked artists, as well as their corresponding scores. A loaded database with metrics based on 90 artists and 900 images is available. The 90 artists are listed in file artist_list.txt. The script connects automatically to the PostgreSQL DB on ElephantSQL. If another DB is desired, the connection string at the top of the script can be modified.
 
-Run the search_artist.py script with the name of one of the listed artists. Running the script with no arguments will also return the list of available artists. Example:
+Run the search_artist.py script with the name of one of the listed artists. Running the script with no arguments will also return the list of available artists. Example of artist search:
 ```
 $ python search_artist.py Perfume
 ```
+## Acknowledgments
+* Object detection uses TensorFlow and is based off the [TensorFlow C++ and Python Image Recognition Demo](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/label_image)
+* Image 'colorfulness' calculations were based off [Computing image “colorfulness” with OpenCV and Python](https://www.pyimagesearch.com/2017/06/05/computing-image-colorfulness-with-opencv-and-python/) by Adrian Rosebrock
