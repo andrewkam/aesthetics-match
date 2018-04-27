@@ -8,7 +8,9 @@ try:
   conn = pg.connect("dbname='irokefea' user='irokefea' host='elmer.db.elephantsql.com' password='ed3f37N-Jv6XTE_xQcYLm3G9jLb6HLzo'")
     
   if len(sys.argv) != 2:
-    print("Must supply name of one artist")
+    print("Must supply name of one artist:")
+    artists = pd.read_sql('select name, genre from artist order by genre, name;', conn)
+    print(artists.to_string(index=False))
     sys.exit()
 
   artistName = str(sys.argv[1])
