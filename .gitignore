@@ -1,2 +1,4 @@
 
 .DS_Store
+data/imagenet_slim_labels.txt
+data/inception_v3_2016_08_28_frozen.pb
