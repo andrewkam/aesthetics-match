@@ -88,8 +88,8 @@ if __name__ == "__main__":
 
   # Parse arguments
   ap = argparse.ArgumentParser()
-  ap.add_argument("-i", "--images", required = True, help = "Path to input directory of images.")
-  ap.add_argument("-d", "--db", help = "Postgres connection string. Write to specified DB instead of printing SQL statements.")
+  ap.add_argument("-i", "--images", required = True, help = "path to input directory of images")
+  ap.add_argument("-d", "--db", help = "optional PostgreSQL connection string - write to specified DB instead of printing SQL statements")
   args = vars(ap.parse_args())
 
   folder_path = args["images"]
