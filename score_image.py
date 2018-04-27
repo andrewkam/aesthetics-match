@@ -10,6 +10,7 @@ import imutils
 import cv2
 import os
 import argparse
+import psycopg2
 import numpy as np
 import tensorflow as tf
 from imutils import build_montages
@@ -87,7 +88,8 @@ if __name__ == "__main__":
 
   # Parse arguments
   ap = argparse.ArgumentParser()
-  ap.add_argument("-i", "--images", required = True, help = "path to input directory of images")
+  ap.add_argument("-i", "--images", required = True, help = "Path to input directory of images.")
+  ap.add_argument("-d", "--db", help = "Postgres connection string. Write to specified DB instead of printing SQL statements.")
   args = vars(ap.parse_args())
 
   folder_path = args["images"]
@@ -99,6 +101,11 @@ if __name__ == "__main__":
   input_std = 255
   input_layer = "input"
   output_layer = "InceptionV3/Predictions/Reshape_1"
+
+  # Make postgres connection if DB string is specified
+  if(args["db"]):
+    conn = psycopg2.connect(args["db"])
+    cur = conn.cursor()
 
   for filename in os.listdir(folder_path):
     artist = filename.split('-')[0]
@@ -128,9 +135,11 @@ if __name__ == "__main__":
     for i in top_k:
       # Print out formatted SQL statements with object detection results
       # Or directly insert results into DB
-      # cur.execute("INSERT INTO artist_object_score SELECT a.id, o.id, %s FROM artist a, object o WHERE a.name = %s and o.label = %s;", (np.asscalar(results[i]), artist, labels[i]))
-      insertObjectScore = "INSERT INTO artist_object_score SELECT a.id, o.id, " + str(np.asscalar(results[i]))+ " FROM artist a, object o WHERE a.name = '" + artist + "' and o.label = '" + labels[i] + "';"
-      print(insertObjectScore)
+      if(args["db"]):
+        cur.execute("INSERT INTO artist_object_score SELECT a.id, o.id, %s FROM artist a, object o WHERE a.name = %s and o.label = %s;", (np.asscalar(results[i]), artist, labels[i]))
+      else:  
+        insertObjectScore = "INSERT INTO artist_object_score SELECT a.id, o.id, " + str(np.asscalar(results[i]))+ " FROM artist a, object o WHERE a.name = '" + artist + "' and o.label = '" + labels[i] + "';"
+        print(insertObjectScore)
 
     # Get the colorfulness rating of the image
     image = cv2.imread(file_path)
@@ -139,10 +148,14 @@ if __name__ == "__main__":
 
     # Print out formatted SQL statements with colorfulness results
     # Or directly insert results into DB
-    #cur.execute("INSERT INTO artist_color_score SELECT a.id, %s FROM artist a WHERE a.name = %s;", (colorValue, artist))
-    insertColorScore = "INSERT INTO artist_color_score SELECT a.id, " + str(colorValue)+ " FROM artist a WHERE a.name = '" + artist + "';"
-    print(insertColorScore)
+    if(args["db"]):
+      cur.execute("INSERT INTO artist_color_score SELECT a.id, %s FROM artist a WHERE a.name = %s;", (colorValue, artist))
+    else:
+      insertColorScore = "INSERT INTO artist_color_score SELECT a.id, " + str(colorValue)+ " FROM artist a WHERE a.name = '" + artist + "';"
+      print(insertColorScore)
 
-  #conn.commit()
-  #cur.close()
-  #conn.close()
+  # Disconnect from DB
+  if(args["db"]):
+    conn.commit()
+    cur.close()
+    conn.close()
