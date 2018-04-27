@@ -26,7 +26,7 @@ $ curl -L "https://storage.googleapis.com/download.tensorflow.org/models/incepti
 ```
 This step is required to run the object detection, optional otherwise.
 ### Images
-A collection of 900 artist images was gathered to calculate similarity scores. The image set can be downloaded [here](https://www.dropbox.com/s/nkm9oosdaet3hsd/images.zip?dl=0).
+A collection of 900 artist images was gathered to calculate object detection and color scores. The image set can be downloaded [here](https://www.dropbox.com/s/nkm9oosdaet3hsd/images.zip?dl=0).
 
 This step is optional.
 
