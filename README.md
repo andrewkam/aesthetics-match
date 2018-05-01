@@ -55,7 +55,7 @@ optional arguments:
                         specified DB instead of printing SQL statements.
 ```
 ### Artist Matching
-The search_artist.py script takes in one artist name, matches them all other loaded artists based on common objects and 'colorfulness', and returns the top five ranked artists, as well as their corresponding scores. A loaded database with metrics based on 90 artists and 900 images is available. The 90 artists are listed in file artist_list.txt. The script connects automatically to the PostgreSQL DB on ElephantSQL. If another DB is desired, the connection string at the top of the script can be modified.
+The search_artist.py script takes in an artist name, matches them to all other loaded artists based on common objects and 'colorfulness', and returns the top five ranked artists as well as their corresponding scores. A loaded database with metrics based on 90 artists and 900 images is available. The 90 artists are listed in file artist_list.txt. The script connects automatically to the PostgreSQL DB on ElephantSQL. If another DB is desired, the connection string at the top of the script can be modified.
 
 Run the search_artist.py script with the name of one of the listed artists. Running the script with no arguments will also return the list of available artists. Example of artist search:
 ```
