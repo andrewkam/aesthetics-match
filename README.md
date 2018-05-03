@@ -37,7 +37,7 @@ This step is optional.
 
 ## Usage
 ### Image Scoring
-The image scoring functionality is used to establish a base of object and color metrics for searching. The script `score_image.py` takes in a set of JPG image files, runs both object detection and 'colorfulness' analysis on each image, and then constructs SQL statements to either directly insert into a specified DB, or print out to the terminal. Each filename must contain the name of the artist, with spaces replaced by underscores and a suffix of "-n", with "n" as a numerical value (ie. 'kacey_musgraves-1.jpg').
+The image scoring functionality is used to establish a base of object and color metrics for searching. The script `score_image.py` takes in a set of JPG image files, runs both object detection and "colorfulness" analysis on each image, and then constructs SQL statements to either directly insert into a specified DB, or print out to the terminal. Each filename must contain the name of the artist, with spaces replaced by underscores and a suffix of "-n", with "n" as a numerical value (ie. "kacey_musgraves-1.jpg").
 
 Usage is simple, run the `score_image.py` script with a path to an image directory. Example:
 ```
